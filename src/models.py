@@ -8,10 +8,10 @@ db = SQLAlchemy()
 class Favorite(db.Model):
     __tablename__ = "favorites"
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', nullable=False))
-    character_id: Mapped[int] = mapped_column(ForeignKey('characters.id', nullable=True))
-    planet_id: Mapped[int] = mapped_column(ForeignKey('planets.id', nullable=True))
-    starship_id: Mapped[int] = mapped_column(ForeignKey('starships.id', nullable=True))
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
+    character_id: Mapped[int] = mapped_column(ForeignKey('characters.id'), nullable=True)
+    planet_id: Mapped[int] = mapped_column(ForeignKey('planets.id'), nullable=True)
+    starship_id: Mapped[int] = mapped_column(ForeignKey('starships.id'), nullable=True)
 
     user: Mapped["User"] = relationship("User", back_populates="favorites")
     character: Mapped["Characters"] = relationship("Characters", back_populates="favorites", foreign_keys=[character_id])
@@ -28,7 +28,7 @@ class User(db.Model):
     created_at: Mapped[DateTime] = mapped_column(DateTime(), default=func.now())
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
-    favorites: Mapped[List["Favorite"]] = relationship("Favorite", back_populate = "user")
+    favorites: Mapped[List["Favorite"]] = relationship("Favorite", back_populates = "user")
 
 class Characters(db.Model):
     __tablename__ = "characters"
